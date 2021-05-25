@@ -1,7 +1,3 @@
-<header>
-  <h1>MeetUs</h1>
-</header>
-
 <style>
   header {
     position: fixed;
@@ -22,3 +18,7 @@
     margin: 0;
   }
 </style>
+
+<header>
+  <h1>MeetUs</h1>
+</header>
