@@ -1,3 +1,7 @@
+<script>
+  export let meetup;
+</script>
+
 <style>
   article {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
@@ -54,16 +58,18 @@
 
 <article>
   <header>
-    <h1>TITLE</h1>
-    <h2>SUBTITLE</h2>
+    <h1>{meetup.title}</h1>
+    <h2>{meetup.subtitle}</h2>
+    <p>{meetup.adress}</p>
   </header>
   <div class="image">
-    <img src="" alt="" />
+    <img src={meetup.imageUrl} alt={meetup.title} />
   </div>
   <div class="content">
-    <p />
+    <p>{meetup.description}</p>
   </div>
   <footer>
+    <a href="mailto:{meetup.contactEmail}">Contact</a>
     <button>Show Details</button>
     <button>Favorite</button>
   </footer>
