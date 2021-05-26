@@ -60,7 +60,7 @@
   <header>
     <h1>{meetup.title}</h1>
     <h2>{meetup.subtitle}</h2>
-    <p>{meetup.adress}</p>
+    <p>{meetup.address}</p>
   </header>
   <div class="image">
     <img src={meetup.imageUrl} alt={meetup.title} />

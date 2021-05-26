@@ -1,10 +1,11 @@
 <script>
   import Header from "./UI/Header.svelte";
   import MeetupGrid from "./Meetups/MeetupGrid.svelte";
+  import TextInput from "./UI/TextInput.svelte";
 
   let title = "";
   let subtitle = "";
-  let adress = "";
+  let address = "";
   let imageUrl = "";
   let email = "";
   let description = "";
@@ -18,7 +19,7 @@
         "In this meetup, we will have some experts that teach you how to code!",
       imageUrl:
         "https://www.enap.gov.br/media_files/images/imagem_bootcamp.jpg",
-      adress: "27th Nerd Road, 32523 New York",
+      address: "27th Nerd Road, 32523 New York",
       contactEmail: "code@test.com",
     },
     {
@@ -27,7 +28,7 @@
       subtitle: "Let's go for some swimming",
       description: "Wee will simply swim some rounds!",
       imageUrl: "https://pbs.twimg.com/media/Cx9mroxWIAIHHJP.jpg",
-      adress: "27th Nerd Road, 32523 New York",
+      address: "27th Nerd Road, 32523 New York",
       contactEmail: "swim@test.com",
     },
   ];
@@ -40,7 +41,7 @@
       subtitle,
       imageUrl,
       description,
-      adress,
+      address,
     };
 
     meetups = [newMeetup, ...meetups];
@@ -51,35 +52,59 @@
   main {
     margin-top: 5rem;
   }
+
+  form {
+    width: 30rem;
+    max-width: 90%;
+    margin: auto;
+  }
 </style>
 
 <Header />
 <main>
   <form on:submit|preventDefault={addMeetup}>
-    <div class="form-control">
-      <label for="title">Title</label>
-      <input type="text" id="title" bind:value={title} />
-    </div>
-    <div class="form-control">
-      <label for="subtitle">Subtitle</label>
-      <input type="text" id="subtitle" bind:value={subtitle} />
-    </div>
-    <div class="form-control">
-      <label for="address">Adress</label>
-      <input type="text" id="adress" bind:value={adress} />
-    </div>
-    <div class="form-control">
-      <label for="imageUrl">Image URL</label>
-      <input type="text" id="imageUrl" bind:value={imageUrl} />
-    </div>
-    <div class="form-control">
-      <label for="email">E-mail</label>
-      <input type="email" id="email" bind:value={email} />
-    </div>
-    <div class="form-control">
-      <label for="description">Description</label>
-      <textarea rows="3" id="description" bind:value={description} />
-    </div>
+    <TextInput
+      id="title"
+      label="Title"
+      value={title}
+      type="text"
+      on:input={(event) => (title = event.target.value)}
+    />
+    <TextInput
+      id="subtitle"
+      label="Subtitle"
+      value={subtitle}
+      type="text"
+      on:input={(event) => (subtitle = event.target.value)}
+    />
+    <TextInput
+      id="address"
+      label="address"
+      value={address}
+      type="text"
+      on:input={(event) => (address = event.target.value)}
+    />
+    <TextInput
+      id="imageUrl"
+      label="Image URL"
+      value={imageUrl}
+      type="text"
+      on:input={(event) => (imageUrl = event.target.value)}
+    />
+    <TextInput
+      id="email"
+      label="E-mail"
+      type="email"
+      value={email}
+      on:input={(event) => (email = event.target.value)}
+    />
+    <TextInput
+      controlType="textarea"
+      id="description"
+      label="Description"
+      value={description}
+      on:input={(event) => (description = event.target.value)}
+    />
     <button type="submit">Save</button>
   </form>
   <MeetupGrid {meetups} />
