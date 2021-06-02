@@ -47,7 +47,7 @@
   />
   <TextInput
     id="address"
-    label="address"
+    label="Address"
     value={address}
     on:input={(event) => (address = event.target.value)}
   />
