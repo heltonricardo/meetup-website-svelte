@@ -68,10 +68,10 @@
 <Header />
 <main>
   <div class="meetup-controls">
-    <Button on:click={() => (editMode = !editMode)}>New Meetup</Button>
+    <Button on:click={() => (editMode = true)}>New Meetup</Button>
   </div>
   {#if editMode}
-    <EditMeetup on:save={addMeetup} />
+    <EditMeetup on:save={addMeetup} on:cancel={() => (editMode = false)} />
   {/if}
   <MeetupGrid {meetups} on:toggleFavorite={toggleFavorite} />
 </main>
