@@ -1,6 +1,8 @@
 <script>
   import { createEventDispatcher } from "svelte";
 
+  import { isEmpty, isValidEmail } from "../helpers/validation";
+
   import TextInput from "../UI/TextInput.svelte";
   import Button from "../UI/Button.svelte";
   import Modal from "../UI/Modal.svelte";
@@ -8,11 +10,23 @@
   const dispatch = createEventDispatcher();
 
   let title = "";
+  $: titleValid = !isEmpty(title);
+
   let subtitle = "";
+  $: subtitleValid = !isEmpty(subtitle);
+  
   let address = "";
+  $: addressValid = !isEmpty(address);
+  
   let imageUrl = "";
+  $: imageUrlValid = !isEmpty(imageUrl);
+  
   let email = "";
+  $: emailValid = isValidEmail(email);
+  
   let description = "";
+  $: descriptionValid = !isEmpty(description);
+  
 
   function submitForm() {
     dispatch("save", {
@@ -38,7 +52,7 @@
       id="title"
       label="Title"
       value={title}
-      valid={false}
+      valid={titleValid}
       validityMessage="Please enter a valid title."
       on:input={(event) => (title = event.target.value)}
     />
@@ -46,18 +60,24 @@
       id="subtitle"
       label="Subtitle"
       value={subtitle}
+      valid={subtitleValid}
+      validityMessage="Please enter a valid subtitle."
       on:input={(event) => (subtitle = event.target.value)}
     />
     <TextInput
       id="address"
       label="Address"
       value={address}
+      valid={addressValid}
+      validityMessage="Please enter a valid address."
       on:input={(event) => (address = event.target.value)}
     />
     <TextInput
       id="imageUrl"
       label="Image URL"
       value={imageUrl}
+      valid={imageUrlValid}
+      validityMessage="Please enter a valid image URL."
       on:input={(event) => (imageUrl = event.target.value)}
     />
     <TextInput
@@ -65,6 +85,8 @@
       label="E-mail"
       type="email"
       value={email}
+      valid={emailValid}
+      validityMessage="Please enter a valid e-mail."
       on:input={(event) => (email = event.target.value)}
     />
     <TextInput
@@ -72,6 +94,8 @@
       id="description"
       label="Description"
       value={description}
+      valid={descriptionValid}
+      validityMessage="Please enter a valid description."
       on:input={(event) => (description = event.target.value)}
     />
   </form>

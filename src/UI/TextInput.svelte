@@ -7,6 +7,8 @@
   export let type = "text";
   export let valid = true;
   export let validityMessage = "";
+
+  let touched = false;
 </script>
 
 <style>
@@ -55,11 +57,25 @@
 <div class="form-control">
   <label for={id}>{label}</label>
   {#if controlType === "textarea"}
-    <textarea class:invalid={!valid} {id} {value} on:input />
+    <textarea
+      class:invalid={!valid && touched}
+      {rows}
+      {id}
+      {value}
+      on:input
+      on:blur={() => (touched = true)}
+    />
   {:else}
-    <input class:invalid={!valid} {type} {id} {value} on:input />
+    <input
+      class:invalid={!valid && touched}
+      {type}
+      {id}
+      {value}
+      on:input
+      on:blur={() => (touched = true)}
+    />
   {/if}
-  {#if !valid && validityMessage}
+  {#if touched && !valid && validityMessage}
     <p class="error-message">{validityMessage}</p>
   {/if}
 </div>
@@ -71,4 +87,6 @@
 
   Quando não atribuímos um valor para "on:input", o evento é encaminhado
   diretamente para o componente pai.
+
+  O evento on:blur dispara quando o usuário toca nessa entrada e a deixa.
  -->
