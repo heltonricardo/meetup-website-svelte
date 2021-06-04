@@ -10,23 +10,29 @@
   const dispatch = createEventDispatcher();
 
   let title = "";
-  $: titleValid = !isEmpty(title);
-
   let subtitle = "";
-  $: subtitleValid = !isEmpty(subtitle);
-  
   let address = "";
-  $: addressValid = !isEmpty(address);
-  
   let imageUrl = "";
-  $: imageUrlValid = !isEmpty(imageUrl);
-  
   let email = "";
-  $: emailValid = isValidEmail(email);
-  
   let description = "";
+  let formIsValid = false;
+
+  $: titleValid = !isEmpty(title);
+  $: subtitleValid = !isEmpty(subtitle);
+  $: addressValid = !isEmpty(address);
+  $: imageUrlValid = !isEmpty(imageUrl);
+  $: emailValid = isValidEmail(email);
   $: descriptionValid = !isEmpty(description);
-  
+
+  $: formIsValid =
+    titleValid &&
+    subtitleValid &&
+    addressValid &&
+    imageUrlValid &&
+    emailValid &&
+    descriptionValid;
+
+  $: console.log(`disabled: ${!formIsValid}`);
 
   function submitForm() {
     dispatch("save", {
@@ -103,6 +109,8 @@
     <Button type="button" mode="outline" on:click={() => dispatch("cancel")}
       >Cancel</Button
     >
-    <Button type="button" on:click={submitForm}>Save</Button>
+    <Button type="button" on:click={submitForm} disabled={!formIsValid}
+      >Save</Button
+    >
   </div>
 </Modal>
