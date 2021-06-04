@@ -99,10 +99,9 @@
       controlType="textarea"
       id="description"
       label="Description"
-      value={description}
       valid={descriptionValid}
       validityMessage="Please enter a valid description."
-      on:input={(event) => (description = event.target.value)}
+      bind:value={description}
     />
   </form>
   <div slot="footer">
