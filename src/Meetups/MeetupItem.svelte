@@ -85,7 +85,7 @@
     <Button type="button" on:click={() => dispatch("showdetails", meetup.id)}
       >Show Details</Button
     >
-    <Button href="mailto:{meetup.contactEmail}">Contact</Button>
+    <Button>Edit</Button>
     <Button
       mode="outline"
       color={meetup.isFavorite || "success"}

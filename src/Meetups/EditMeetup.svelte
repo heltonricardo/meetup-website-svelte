@@ -2,20 +2,23 @@
   import { createEventDispatcher } from "svelte";
   import { isEmpty, isValidEmail } from "../helpers/validation";
   import meetups from "./meetups-store";
-
   import TextInput from "../UI/TextInput.svelte";
   import Button from "../UI/Button.svelte";
   import Modal from "../UI/Modal.svelte";
 
+  export let id = null;
+
   const dispatch = createEventDispatcher();
 
-  let title = "";
-  let subtitle = "";
-  let address = "";
-  let imageUrl = "";
-  let contactEmail = "";
-  let description = "";
   let formIsValid = false;
+
+  const meetup = $meetups.find((m) => m.id === id);
+  let title = meetup.title || "";
+  let subtitle = meetup.subtitle || "";
+  let address = meetup.address || "";
+  let imageUrl = meetup.imageUrl || "";
+  let contactEmail = meetup.contactEmail || "";
+  let description = meetup.description || "";
 
   $: titleValid = !isEmpty(title);
   $: subtitleValid = !isEmpty(subtitle);
@@ -33,14 +36,20 @@
     descriptionValid;
 
   function submitForm() {
-    meetups.addMeetup({
+    const meetup = {
       contactEmail,
       title,
       subtitle,
       imageUrl,
       description,
       address,
-    });
+    };
+
+    if (id) {
+      meetups.updateMeetup(id, meetup);
+    } else {
+      meetups.addMeetup(meetup);
+    }
     dispatch("save");
   }
 </script>
@@ -51,7 +60,7 @@
   }
 </style>
 
-<Modal title="New Meetup" on:cancel>
+<Modal title={id ? "Edit Meetup" : "New Meetup"} on:cancel>
   <form on:submit|preventDefault={submitForm}>
     <TextInput
       id="title"
