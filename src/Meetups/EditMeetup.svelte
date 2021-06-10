@@ -12,7 +12,7 @@
 
   let formIsValid = false;
 
-  const meetup = $meetups.find((m) => m.id === id);
+  const meetup = $meetups.find((m) => m.id === id) || {};
   let title = meetup.title || "";
   let subtitle = meetup.subtitle || "";
   let address = meetup.address || "";

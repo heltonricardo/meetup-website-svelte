@@ -1087,6 +1087,10 @@ var app = (function () {
         });
       },
 
+      updateMeetup: (id, meetup) => {
+
+      },
+
       toggleFavorite: (id) => {
         meetups.update((mtps) => {
           return mtps.map((meetup) =>
@@ -2673,7 +2677,7 @@ var app = (function () {
     			t4 = space();
     			create_component(textinput5.$$.fragment);
     			attr_dev(form, "class", "svelte-no1xoc");
-    			add_location(form, file$2, 63, 2, 1573);
+    			add_location(form, file$2, 63, 2, 1579);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, form, anchor);
@@ -2863,7 +2867,7 @@ var app = (function () {
     			t = space();
     			create_component(button1.$$.fragment);
     			attr_dev(div, "slot", "footer");
-    			add_location(div, file$2, 114, 2, 3065);
+    			add_location(div, file$2, 114, 2, 3071);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2997,7 +3001,7 @@ var app = (function () {
     	let { id = null } = $$props;
     	const dispatch = createEventDispatcher();
     	let formIsValid = false;
-    	const meetup = $meetups.find(m => m.id === id);
+    	const meetup = $meetups.find(m => m.id === id) || {};
     	let title = meetup.title || "";
     	let subtitle = meetup.subtitle || "";
     	let address = meetup.address || "";
