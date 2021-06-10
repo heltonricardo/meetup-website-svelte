@@ -13,7 +13,7 @@
   let subtitle = "";
   let address = "";
   let imageUrl = "";
-  let email = "";
+  let contactEmail = "";
   let description = "";
   let formIsValid = false;
 
@@ -21,7 +21,7 @@
   $: subtitleValid = !isEmpty(subtitle);
   $: addressValid = !isEmpty(address);
   $: imageUrlValid = !isEmpty(imageUrl);
-  $: emailValid = isValidEmail(email);
+  $: contactEmailValid = isValidEmail(contactEmail);
   $: descriptionValid = !isEmpty(description);
 
   $: formIsValid =
@@ -29,12 +29,12 @@
     subtitleValid &&
     addressValid &&
     imageUrlValid &&
-    emailValid &&
+    contactEmailValid &&
     descriptionValid;
 
   function submitForm() {
     meetups.addMeetup({
-      email,
+      contactEmail,
       title,
       subtitle,
       imageUrl,
@@ -86,13 +86,13 @@
       on:input={(event) => (imageUrl = event.target.value)}
     />
     <TextInput
-      id="email"
+      id="contactEmail"
       label="E-mail"
       type="email"
-      value={email}
-      valid={emailValid}
+      value={contactEmail}
+      valid={contactEmailValid}
       validityMessage="Please enter a valid e-mail."
-      on:input={(event) => (email = event.target.value)}
+      on:input={(event) => (contactEmail = event.target.value)}
     />
     <TextInput
       controlType="textarea"
