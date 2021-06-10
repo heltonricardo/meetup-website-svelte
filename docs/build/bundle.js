@@ -1087,18 +1087,16 @@ var app = (function () {
         });
       },
 
-      updateMeetup: (id, meetup) => {
-
+      updateMeetup: (id, isFavorite, meetup) => {
+        meetups.update((mtps) =>
+          mtps.map((m) => (m.id !== id ? m : { id, isFavorite, ...meetup }))
+        );
       },
 
       toggleFavorite: (id) => {
-        meetups.update((mtps) => {
-          return mtps.map((meetup) =>
-            meetup.id !== id
-              ? meetup
-              : { ...meetup, isFavorite: !meetup.isFavorite }
-          );
-        });
+        meetups.update((mtps) =>
+          mtps.map((m) => (m.id !== id ? m : { ...m, isFavorite: !m.isFavorite }))
+        );
       },
     };
 
@@ -1205,7 +1203,7 @@ var app = (function () {
     	return block;
     }
 
-    // (88:4) <Button>
+    // (88:4) <Button mode="outline" on:click={() => dispatch("edit", meetup.id)}        >
     function create_default_slot_1$2(ctx) {
     	let t;
 
@@ -1225,14 +1223,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_1$2.name,
     		type: "slot",
-    		source: "(88:4) <Button>",
+    		source: "(88:4) <Button mode=\\\"outline\\\" on:click={() => dispatch(\\\"edit\\\", meetup.id)}        >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (89:4) <Button        mode="outline"        color={meetup.isFavorite || "success"}        type="button"        on:click={toggleFavorite}        >
+    // (91:4) <Button        mode="outline"        color={meetup.isFavorite || "success"}        type="button"        on:click={toggleFavorite}        >
     function create_default_slot$4(ctx) {
     	let t_value = (/*meetup*/ ctx[0].isFavorite ? "Unfavorite" : "Favorite") + "";
     	let t;
@@ -1256,7 +1254,7 @@ var app = (function () {
     		block,
     		id: create_default_slot$4.name,
     		type: "slot",
-    		source: "(89:4) <Button        mode=\\\"outline\\\"        color={meetup.isFavorite || \\\"success\\\"}        type=\\\"button\\\"        on:click={toggleFavorite}        >",
+    		source: "(91:4) <Button        mode=\\\"outline\\\"        color={meetup.isFavorite || \\\"success\\\"}        type=\\\"button\\\"        on:click={toggleFavorite}        >",
     		ctx
     	});
 
@@ -1311,11 +1309,14 @@ var app = (function () {
 
     	button1 = new Button({
     			props: {
+    				mode: "outline",
     				$$slots: { default: [create_default_slot_1$2] },
     				$$scope: { ctx }
     			},
     			$$inline: true
     		});
+
+    	button1.$on("click", /*click_handler_1*/ ctx[4]);
 
     	button2 = new Button({
     			props: {
@@ -1451,14 +1452,14 @@ var app = (function () {
     			if ((!current || dirty & /*meetup*/ 1) && t8_value !== (t8_value = /*meetup*/ ctx[0].description + "")) set_data_dev(t8, t8_value);
     			const button0_changes = {};
 
-    			if (dirty & /*$$scope*/ 16) {
+    			if (dirty & /*$$scope*/ 32) {
     				button0_changes.$$scope = { dirty, ctx };
     			}
 
     			button0.$set(button0_changes);
     			const button1_changes = {};
 
-    			if (dirty & /*$$scope*/ 16) {
+    			if (dirty & /*$$scope*/ 32) {
     				button1_changes.$$scope = { dirty, ctx };
     			}
 
@@ -1466,7 +1467,7 @@ var app = (function () {
     			const button2_changes = {};
     			if (dirty & /*meetup*/ 1) button2_changes.color = /*meetup*/ ctx[0].isFavorite || "success";
 
-    			if (dirty & /*$$scope, meetup*/ 17) {
+    			if (dirty & /*$$scope, meetup*/ 33) {
     				button2_changes.$$scope = { dirty, ctx };
     			}
 
@@ -1524,6 +1525,7 @@ var app = (function () {
     	});
 
     	const click_handler = () => dispatch("showdetails", meetup.id);
+    	const click_handler_1 = () => dispatch("edit", meetup.id);
 
     	$$self.$$set = $$props => {
     		if ("meetup" in $$props) $$invalidate(0, meetup = $$props.meetup);
@@ -1547,7 +1549,7 @@ var app = (function () {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [meetup, dispatch, toggleFavorite, click_handler];
+    	return [meetup, dispatch, toggleFavorite, click_handler, click_handler_1];
     }
 
     class MeetupItem extends SvelteComponentDev {
@@ -1584,7 +1586,7 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[3] = list[i];
+    	child_ctx[4] = list[i];
     	return child_ctx;
     }
 
@@ -1594,12 +1596,13 @@ var app = (function () {
     	let current;
 
     	meetupitem = new MeetupItem({
-    			props: { meetup: /*meetup*/ ctx[3] },
+    			props: { meetup: /*meetup*/ ctx[4] },
     			$$inline: true
     		});
 
     	meetupitem.$on("toggleFavorite", /*toggleFavorite_handler*/ ctx[1]);
     	meetupitem.$on("showdetails", /*showdetails_handler*/ ctx[2]);
+    	meetupitem.$on("edit", /*edit_handler*/ ctx[3]);
 
     	const block = {
     		c: function create() {
@@ -1611,7 +1614,7 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const meetupitem_changes = {};
-    			if (dirty & /*meetups*/ 1) meetupitem_changes.meetup = /*meetup*/ ctx[3];
+    			if (dirty & /*meetups*/ 1) meetupitem_changes.meetup = /*meetup*/ ctx[4];
     			meetupitem.$set(meetupitem_changes);
     		},
     		i: function intro(local) {
@@ -1760,6 +1763,10 @@ var app = (function () {
     		bubble($$self, event);
     	}
 
+    	function edit_handler(event) {
+    		bubble($$self, event);
+    	}
+
     	$$self.$$set = $$props => {
     		if ("meetups" in $$props) $$invalidate(0, meetups = $$props.meetups);
     	};
@@ -1774,7 +1781,7 @@ var app = (function () {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [meetups, toggleFavorite_handler, showdetails_handler];
+    	return [meetups, toggleFavorite_handler, showdetails_handler, edit_handler];
     }
 
     class MeetupGrid extends SvelteComponentDev {
@@ -2558,7 +2565,7 @@ var app = (function () {
     /* src\Meetups\EditMeetup.svelte generated by Svelte v3.38.2 */
     const file$2 = "src\\Meetups\\EditMeetup.svelte";
 
-    // (63:0) <Modal title={id ? "Edit Meetup" : "New Meetup"} on:cancel>
+    // (64:0) <Modal title={id ? "Edit Meetup" : "New Meetup"} on:cancel>
     function create_default_slot_2(ctx) {
     	let form;
     	let textinput0;
@@ -2677,7 +2684,7 @@ var app = (function () {
     			t4 = space();
     			create_component(textinput5.$$.fragment);
     			attr_dev(form, "class", "svelte-no1xoc");
-    			add_location(form, file$2, 63, 2, 1579);
+    			add_location(form, file$2, 64, 2, 1638);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, form, anchor);
@@ -2767,14 +2774,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_2.name,
     		type: "slot",
-    		source: "(63:0) <Modal title={id ? \\\"Edit Meetup\\\" : \\\"New Meetup\\\"} on:cancel>",
+    		source: "(64:0) <Modal title={id ? \\\"Edit Meetup\\\" : \\\"New Meetup\\\"} on:cancel>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (116:4) <Button type="button" mode="outline" on:click={() => dispatch("cancel")}        >
+    // (117:4) <Button type="button" mode="outline" on:click={() => dispatch("cancel")}        >
     function create_default_slot_1$1(ctx) {
     	let t;
 
@@ -2794,14 +2801,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_1$1.name,
     		type: "slot",
-    		source: "(116:4) <Button type=\\\"button\\\" mode=\\\"outline\\\" on:click={() => dispatch(\\\"cancel\\\")}        >",
+    		source: "(117:4) <Button type=\\\"button\\\" mode=\\\"outline\\\" on:click={() => dispatch(\\\"cancel\\\")}        >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (119:4) <Button type="button" on:click={submitForm} disabled={!formIsValid}        >
+    // (120:4) <Button type="button" on:click={submitForm} disabled={!formIsValid}        >
     function create_default_slot$2(ctx) {
     	let t;
 
@@ -2821,14 +2828,14 @@ var app = (function () {
     		block,
     		id: create_default_slot$2.name,
     		type: "slot",
-    		source: "(119:4) <Button type=\\\"button\\\" on:click={submitForm} disabled={!formIsValid}        >",
+    		source: "(120:4) <Button type=\\\"button\\\" on:click={submitForm} disabled={!formIsValid}        >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (115:2) 
+    // (116:2) 
     function create_footer_slot(ctx) {
     	let div;
     	let button0;
@@ -2867,7 +2874,7 @@ var app = (function () {
     			t = space();
     			create_component(button1.$$.fragment);
     			attr_dev(div, "slot", "footer");
-    			add_location(div, file$2, 114, 2, 3071);
+    			add_location(div, file$2, 115, 2, 3130);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2879,7 +2886,7 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const button0_changes = {};
 
-    			if (dirty & /*$$scope*/ 67108864) {
+    			if (dirty & /*$$scope*/ 134217728) {
     				button0_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2887,7 +2894,7 @@ var app = (function () {
     			const button1_changes = {};
     			if (dirty & /*formIsValid*/ 8192) button1_changes.disabled = !/*formIsValid*/ ctx[13];
 
-    			if (dirty & /*$$scope*/ 67108864) {
+    			if (dirty & /*$$scope*/ 134217728) {
     				button1_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2915,7 +2922,7 @@ var app = (function () {
     		block,
     		id: create_footer_slot.name,
     		type: "slot",
-    		source: "(115:2) ",
+    		source: "(116:2) ",
     		ctx
     	});
 
@@ -2955,7 +2962,7 @@ var app = (function () {
     			const modal_changes = {};
     			if (dirty & /*id*/ 1) modal_changes.title = /*id*/ ctx[0] ? "Edit Meetup" : "New Meetup";
 
-    			if (dirty & /*$$scope, formIsValid, descriptionValid, description, contactEmail, contactEmailValid, imageUrl, imageUrlValid, address, addressValid, subtitle, subtitleValid, title, titleValid*/ 67125246) {
+    			if (dirty & /*$$scope, formIsValid, descriptionValid, description, contactEmail, contactEmailValid, imageUrl, imageUrlValid, address, addressValid, subtitle, subtitleValid, title, titleValid*/ 134234110) {
     				modal_changes.$$scope = { dirty, ctx };
     			}
 
@@ -3008,6 +3015,7 @@ var app = (function () {
     	let imageUrl = meetup.imageUrl || "";
     	let contactEmail = meetup.contactEmail || "";
     	let description = meetup.description || "";
+    	let isFavorite = meetup.isFavorite || null;
 
     	function submitForm() {
     		const meetup = {
@@ -3020,7 +3028,7 @@ var app = (function () {
     		};
 
     		if (id) {
-    			customMeetupsStore.updateMeetup(id, meetup);
+    			customMeetupsStore.updateMeetup(id, isFavorite, meetup);
     		} else {
     			customMeetupsStore.addMeetup(meetup);
     		}
@@ -3072,6 +3080,7 @@ var app = (function () {
     		imageUrl,
     		contactEmail,
     		description,
+    		isFavorite,
     		submitForm,
     		$meetups,
     		titleValid,
@@ -3091,6 +3100,7 @@ var app = (function () {
     		if ("imageUrl" in $$props) $$invalidate(4, imageUrl = $$props.imageUrl);
     		if ("contactEmail" in $$props) $$invalidate(5, contactEmail = $$props.contactEmail);
     		if ("description" in $$props) $$invalidate(6, description = $$props.description);
+    		if ("isFavorite" in $$props) isFavorite = $$props.isFavorite;
     		if ("titleValid" in $$props) $$invalidate(7, titleValid = $$props.titleValid);
     		if ("subtitleValid" in $$props) $$invalidate(8, subtitleValid = $$props.subtitleValid);
     		if ("addressValid" in $$props) $$invalidate(9, addressValid = $$props.addressValid);
@@ -3455,17 +3465,17 @@ var app = (function () {
     /* src\App.svelte generated by Svelte v3.38.2 */
     const file = "src\\App.svelte";
 
-    // (48:2) {:else}
+    // (66:2) {:else}
     function create_else_block(ctx) {
     	let meetupdetail;
     	let current;
 
     	meetupdetail = new MeetupDetail({
-    			props: { id: /*pageData*/ ctx[2].id },
+    			props: { id: /*pageData*/ ctx[3].id },
     			$$inline: true
     		});
 
-    	meetupdetail.$on("close", /*closeDetails*/ ctx[6]);
+    	meetupdetail.$on("close", /*closeDetails*/ ctx[7]);
 
     	const block = {
     		c: function create() {
@@ -3477,7 +3487,7 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const meetupdetail_changes = {};
-    			if (dirty & /*pageData*/ 4) meetupdetail_changes.id = /*pageData*/ ctx[2].id;
+    			if (dirty & /*pageData*/ 8) meetupdetail_changes.id = /*pageData*/ ctx[3].id;
     			meetupdetail.$set(meetupdetail_changes);
     		},
     		i: function intro(local) {
@@ -3498,14 +3508,14 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(48:2) {:else}",
+    		source: "(66:2) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (40:2) {#if page === "overview"}
+    // (47:2) {#if page === "overview"}
     function create_if_block(ctx) {
     	let div;
     	let button;
@@ -3522,15 +3532,16 @@ var app = (function () {
     			$$inline: true
     		});
 
-    	button.$on("click", /*click_handler*/ ctx[7]);
+    	button.$on("click", /*click_handler*/ ctx[9]);
     	let if_block = /*editMode*/ ctx[0] && create_if_block_1(ctx);
 
     	meetupgrid = new MeetupGrid({
-    			props: { meetups: /*$meetups*/ ctx[3] },
+    			props: { meetups: /*$meetups*/ ctx[4] },
     			$$inline: true
     		});
 
-    	meetupgrid.$on("showdetails", /*showDetails*/ ctx[5]);
+    	meetupgrid.$on("showdetails", /*showDetails*/ ctx[6]);
+    	meetupgrid.$on("edit", /*startEdit*/ ctx[8]);
 
     	const block = {
     		c: function create() {
@@ -3541,7 +3552,7 @@ var app = (function () {
     			t1 = space();
     			create_component(meetupgrid.$$.fragment);
     			attr_dev(div, "class", "meetup-controls svelte-1w77hyv");
-    			add_location(div, file, 40, 4, 763);
+    			add_location(div, file, 47, 4, 890);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -3555,7 +3566,7 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const button_changes = {};
 
-    			if (dirty & /*$$scope*/ 512) {
+    			if (dirty & /*$$scope*/ 1024) {
     				button_changes.$$scope = { dirty, ctx };
     			}
 
@@ -3585,7 +3596,7 @@ var app = (function () {
     			}
 
     			const meetupgrid_changes = {};
-    			if (dirty & /*$meetups*/ 8) meetupgrid_changes.meetups = /*$meetups*/ ctx[3];
+    			if (dirty & /*$meetups*/ 16) meetupgrid_changes.meetups = /*$meetups*/ ctx[4];
     			meetupgrid.$set(meetupgrid_changes);
     		},
     		i: function intro(local) {
@@ -3615,14 +3626,14 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(40:2) {#if page === \\\"overview\\\"}",
+    		source: "(47:2) {#if page === \\\"overview\\\"}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (42:6) <Button on:click={() => (editMode = true)}>
+    // (49:6) <Button on:click={() => (editMode = true)}>
     function create_default_slot(ctx) {
     	let t;
 
@@ -3642,20 +3653,25 @@ var app = (function () {
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(42:6) <Button on:click={() => (editMode = true)}>",
+    		source: "(49:6) <Button on:click={() => (editMode = true)}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (44:4) {#if editMode}
+    // (52:4) {#if editMode}
     function create_if_block_1(ctx) {
     	let editmeetup;
     	let current;
-    	editmeetup = new EditMeetup({ $$inline: true });
-    	editmeetup.$on("save", /*addMeetup*/ ctx[4]);
-    	editmeetup.$on("cancel", /*cancel_handler*/ ctx[8]);
+
+    	editmeetup = new EditMeetup({
+    			props: { id: /*editedId*/ ctx[2] },
+    			$$inline: true
+    		});
+
+    	editmeetup.$on("save", /*closeEditMode*/ ctx[5]);
+    	editmeetup.$on("cancel", /*closeEditMode*/ ctx[5]);
 
     	const block = {
     		c: function create() {
@@ -3665,7 +3681,11 @@ var app = (function () {
     			mount_component(editmeetup, target, anchor);
     			current = true;
     		},
-    		p: noop,
+    		p: function update(ctx, dirty) {
+    			const editmeetup_changes = {};
+    			if (dirty & /*editedId*/ 4) editmeetup_changes.id = /*editedId*/ ctx[2];
+    			editmeetup.$set(editmeetup_changes);
+    		},
     		i: function intro(local) {
     			if (current) return;
     			transition_in(editmeetup.$$.fragment, local);
@@ -3684,7 +3704,7 @@ var app = (function () {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(44:4) {#if editMode}",
+    		source: "(52:4) {#if editMode}",
     		ctx
     	});
 
@@ -3717,7 +3737,7 @@ var app = (function () {
     			main = element("main");
     			if_block.c();
     			attr_dev(main, "class", "svelte-1w77hyv");
-    			add_location(main, file, 38, 0, 724);
+    			add_location(main, file, 45, 0, 851);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3789,25 +3809,32 @@ var app = (function () {
     function instance($$self, $$props, $$invalidate) {
     	let $meetups;
     	validate_store(customMeetupsStore, "meetups");
-    	component_subscribe($$self, customMeetupsStore, $$value => $$invalidate(3, $meetups = $$value));
+    	component_subscribe($$self, customMeetupsStore, $$value => $$invalidate(4, $meetups = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("App", slots, []);
     	let editMode = false;
     	let page = "overview";
+    	let editedId;
     	let pageData = {};
 
-    	function addMeetup() {
+    	function closeEditMode() {
     		$$invalidate(0, editMode = false);
+    		$$invalidate(2, editedId = false);
     	}
 
     	function showDetails(event) {
     		$$invalidate(1, page = "details");
-    		$$invalidate(2, pageData.id = event.detail, pageData);
+    		$$invalidate(3, pageData.id = event.detail, pageData);
     	}
 
     	function closeDetails() {
     		$$invalidate(1, page = "overview");
-    		$$invalidate(2, pageData = {});
+    		$$invalidate(3, pageData = {});
+    	}
+
+    	function startEdit(event) {
+    		$$invalidate(0, editMode = true);
+    		$$invalidate(2, editedId = event.detail);
     	}
 
     	const writable_props = [];
@@ -3817,7 +3844,6 @@ var app = (function () {
     	});
 
     	const click_handler = () => $$invalidate(0, editMode = true);
-    	const cancel_handler = () => $$invalidate(0, editMode = false);
 
     	$$self.$capture_state = () => ({
     		Header,
@@ -3828,17 +3854,20 @@ var app = (function () {
     		MeetupDetail,
     		editMode,
     		page,
+    		editedId,
     		pageData,
-    		addMeetup,
+    		closeEditMode,
     		showDetails,
     		closeDetails,
+    		startEdit,
     		$meetups
     	});
 
     	$$self.$inject_state = $$props => {
     		if ("editMode" in $$props) $$invalidate(0, editMode = $$props.editMode);
     		if ("page" in $$props) $$invalidate(1, page = $$props.page);
-    		if ("pageData" in $$props) $$invalidate(2, pageData = $$props.pageData);
+    		if ("editedId" in $$props) $$invalidate(2, editedId = $$props.editedId);
+    		if ("pageData" in $$props) $$invalidate(3, pageData = $$props.pageData);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -3848,13 +3877,14 @@ var app = (function () {
     	return [
     		editMode,
     		page,
+    		editedId,
     		pageData,
     		$meetups,
-    		addMeetup,
+    		closeEditMode,
     		showDetails,
     		closeDetails,
-    		click_handler,
-    		cancel_handler
+    		startEdit,
+    		click_handler
     	];
     }
 

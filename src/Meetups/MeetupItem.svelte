@@ -85,7 +85,9 @@
     <Button type="button" on:click={() => dispatch("showdetails", meetup.id)}
       >Show Details</Button
     >
-    <Button>Edit</Button>
+    <Button mode="outline" on:click={() => dispatch("edit", meetup.id)}
+      >Edit</Button
+    >
     <Button
       mode="outline"
       color={meetup.isFavorite || "success"}

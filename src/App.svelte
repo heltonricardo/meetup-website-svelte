@@ -8,10 +8,12 @@
 
   let editMode = false;
   let page = "overview";
+  let editedId;
   let pageData = {};
 
-  function addMeetup() {
+  function closeEditMode() {
     editMode = false;
+    editedId = false;
   }
 
   function showDetails(event) {
@@ -22,6 +24,11 @@
   function closeDetails() {
     page = "overview";
     pageData = {};
+  }
+
+  function startEdit(event) {
+    editMode = true;
+    editedId = event.detail;
   }
 </script>
 
@@ -41,10 +48,21 @@
     <div class="meetup-controls">
       <Button on:click={() => (editMode = true)}>New Meetup</Button>
     </div>
+
     {#if editMode}
-      <EditMeetup on:save={addMeetup} on:cancel={() => (editMode = false)} />
+      <EditMeetup
+        id={editedId}
+        on:save={closeEditMode}
+        on:cancel={closeEditMode}
+      />
     {/if}
-    <MeetupGrid meetups={$meetups} on:showdetails={showDetails} />
+
+    <MeetupGrid
+      meetups={$meetups}
+      on:showdetails={showDetails}
+      on:edit={startEdit}
+    />
+
   {:else}
     <MeetupDetail id={pageData.id} on:close={closeDetails} />
   {/if}

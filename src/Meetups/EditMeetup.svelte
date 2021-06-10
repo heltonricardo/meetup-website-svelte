@@ -19,6 +19,7 @@
   let imageUrl = meetup.imageUrl || "";
   let contactEmail = meetup.contactEmail || "";
   let description = meetup.description || "";
+  let isFavorite = meetup.isFavorite || null;
 
   $: titleValid = !isEmpty(title);
   $: subtitleValid = !isEmpty(subtitle);
@@ -46,7 +47,7 @@
     };
 
     if (id) {
-      meetups.updateMeetup(id, meetup);
+      meetups.updateMeetup(id, isFavorite, meetup);
     } else {
       meetups.addMeetup(meetup);
     }

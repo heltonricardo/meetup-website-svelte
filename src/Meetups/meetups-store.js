@@ -44,14 +44,16 @@ const customMeetupsStore = {
     });
   },
 
+  updateMeetup: (id, isFavorite, meetup) => {
+    meetups.update((mtps) =>
+      mtps.map((m) => (m.id !== id ? m : { id, isFavorite, ...meetup }))
+    );
+  },
+
   toggleFavorite: (id) => {
-    meetups.update((mtps) => {
-      return mtps.map((meetup) =>
-        meetup.id !== id
-          ? meetup
-          : { ...meetup, isFavorite: !meetup.isFavorite }
-      );
-    });
+    meetups.update((mtps) =>
+      mtps.map((m) => (m.id !== id ? m : { ...m, isFavorite: !m.isFavorite }))
+    );
   },
 };
 export default customMeetupsStore;
