@@ -1,7 +1,7 @@
 <script>
   import { createEventDispatcher } from "svelte";
-
   import { isEmpty, isValidEmail } from "../helpers/validation";
+  import meetups from "./meetups-store";
 
   import TextInput from "../UI/TextInput.svelte";
   import Button from "../UI/Button.svelte";
@@ -32,17 +32,16 @@
     emailValid &&
     descriptionValid;
 
-  $: console.log(`disabled: ${!formIsValid}`);
-
   function submitForm() {
-    dispatch("save", {
+    meetups.addMeetup({
+      email,
       title,
       subtitle,
-      address,
       imageUrl,
-      email,
       description,
+      address,
     });
+    dispatch("save");
   }
 </script>
 
