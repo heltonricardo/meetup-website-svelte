@@ -51,7 +51,12 @@
     } else {
       meetups.addMeetup(meetup);
     }
-    dispatch("save");
+    dispatch("close");
+  }
+
+  function deleteMeetup() {
+    meetups.deleteMeetup(id);
+    dispatch("close");
   }
 </script>
 
@@ -114,10 +119,13 @@
     />
   </form>
   <div slot="footer">
-    <Button type="button" mode="outline" on:click={() => dispatch("cancel")}
+    <Button mode="outline" on:click={() => dispatch("close")}
       >Cancel</Button
     >
-    <Button type="button" on:click={submitForm} disabled={!formIsValid}
+    {#if id}
+      <Button mode="outline" on:click={deleteMeetup}>Delete</Button>
+    {/if}
+    <Button on:click={submitForm} disabled={!formIsValid}
       >Save</Button
     >
   </div>

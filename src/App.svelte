@@ -1,10 +1,10 @@
 <script>
-  import Header from "./UI/Header.svelte";
-  import MeetupGrid from "./Meetups/MeetupGrid.svelte";
-  import EditMeetup from "./Meetups/EditMeetup.svelte";
   import Button from "./UI/Button.svelte";
-  import meetups from "./Meetups/meetups-store";
+  import Header from "./UI/Header.svelte";
+  import EditMeetup from "./Meetups/EditMeetup.svelte";
+  import MeetupGrid from "./Meetups/MeetupGrid.svelte";
   import MeetupDetail from "./Meetups/MeetupDetail.svelte";
+  import meetups from "./Meetups/meetups-store";
 
   let editMode = false;
   let page = "overview";
@@ -52,8 +52,7 @@
     {#if editMode}
       <EditMeetup
         id={editedId}
-        on:save={closeEditMode}
-        on:cancel={closeEditMode}
+        on:close={closeEditMode}
       />
     {/if}
 

@@ -50,6 +50,10 @@ const customMeetupsStore = {
     );
   },
 
+  deleteMeetup: (id) => {
+    meetups.update((mtps) => mtps.filter((m) => m.id !== id && m));
+  },
+
   toggleFavorite: (id) => {
     meetups.update((mtps) =>
       mtps.map((m) => (m.id !== id ? m : { ...m, isFavorite: !m.isFavorite }))
