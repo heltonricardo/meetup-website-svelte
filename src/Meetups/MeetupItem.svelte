@@ -1,8 +1,8 @@
 <script>
-  import Button from "../UI/Button.svelte";
-  import Badge from "../UI/Badge.svelte";
-  import meetups from "./meetups-store";
   import { createEventDispatcher } from "svelte";
+  import meetups from "./meetups-store";
+  import Badge from "../UI/Badge.svelte";
+  import Button from "../UI/Button.svelte";
 
   const dispatch = createEventDispatcher();
 
