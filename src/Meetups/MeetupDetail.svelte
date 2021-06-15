@@ -42,11 +42,6 @@
     margin: 0.5rem 0;
   }
 
-  h2 {
-    font-size: 1.25rem;
-    color: #6b6b6b;
-  }
-
   p {
     font-size: 1.5rem;
   }
