@@ -66,7 +66,7 @@
   }
 </style>
 
-<Modal title={id ? "Edit Meetup" : "New Meetup"} on:cancel>
+<Modal title={id ? "Edit Meetup" : "New Meetup"} on:close>
   <form on:submit|preventDefault={submitForm}>
     <TextInput
       id="title"

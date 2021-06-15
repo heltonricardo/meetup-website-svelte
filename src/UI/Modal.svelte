@@ -9,7 +9,7 @@
   export let title;
 
   function closeModal() {
-    dispatch("cancel");
+    dispatch("close");
   }
 </script>
 
