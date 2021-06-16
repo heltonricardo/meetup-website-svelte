@@ -65,6 +65,10 @@
   main {
     margin-top: 5rem;
   }
+
+  #warning {
+    text-align: center;
+  }
 </style>
 
 <Header />
@@ -88,3 +92,8 @@
     <MeetupDetail id={pageData.id} on:close={closeDetails} />
   {/if}
 </main>
+
+<p id="warning">
+  ⚠️ Data from this page is dynamically entered by users. The author of this
+  project assumes no responsibility for this content. ⚠️
+</p>

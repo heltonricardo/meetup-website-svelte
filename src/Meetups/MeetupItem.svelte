@@ -8,6 +8,11 @@
 
   export let meetup;
 
+  const MAX_LENGTH = 70;
+  $: descStart =
+    meetup.description.substr(0, MAX_LENGTH) +
+    (meetup.description.length > MAX_LENGTH ? "..." : "");
+
   function toggleFavorite() {
     meetups.toggleFavorite(meetup.id);
   }
@@ -79,7 +84,7 @@
     <img src={meetup.imageUrl} alt={meetup.title} />
   </div>
   <div class="content">
-    <p>{meetup.description}</p>
+    <p>{descStart}</p>
   </div>
   <footer>
     <Button type="button" on:click={() => dispatch("showdetails", meetup.id)}
