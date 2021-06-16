@@ -28,20 +28,7 @@ const customMeetupsStore = {
   subscribe: meetups.subscribe,
 
   addMeetup: (meetup) => {
-    let store;
-    // Verificar se posso utilizar subscribe e unsubscribe dessa maneira:
-    meetups.subscribe((tmp) => (store = tmp))();
-    let id;
-    do id = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
-    while (store.find((item) => item.id === id));
-    const newMeetup = {
-      ...meetup,
-      id,
-      isFavorite: false,
-    };
-    meetups.update((mtps) => {
-      return [newMeetup, ...mtps];
-    });
+    meetups.update((meetups) => [meetup, ...meetups]);
   },
 
   updateMeetup: (id, isFavorite, meetup) => {

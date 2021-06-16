@@ -49,8 +49,23 @@
     if (id) {
       meetups.updateMeetup(id, isFavorite, meetup);
     } else {
-      meetups.addMeetup(meetup);
+      fetch("https://meetup-meetus-default-rtdb.firebaseio.com/meetups.json", {
+        method: "POST",
+        body: JSON.stringify({ ...meetup, isFavorite: false }),
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("An error occurred, please try again!");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          meetups.addMeetup({ id: data.name, ...meetup, isFavorite: false });
+        })
+        .catch((err) => console.log(err));
     }
+
     dispatch("close");
   }
 
@@ -119,14 +134,10 @@
     />
   </form>
   <div slot="footer">
-    <Button mode="outline" on:click={() => dispatch("close")}
-      >Cancel</Button
-    >
+    <Button mode="outline" on:click={() => dispatch("close")}>Cancel</Button>
     {#if id}
       <Button mode="outline" on:click={deleteMeetup}>Delete</Button>
     {/if}
-    <Button on:click={submitForm} disabled={!formIsValid}
-      >Save</Button
-    >
+    <Button on:click={submitForm} disabled={!formIsValid}>Save</Button>
   </div>
 </Modal>
