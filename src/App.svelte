@@ -68,6 +68,7 @@
 
   #warning {
     text-align: center;
+    margin: 3rem auto;
   }
 </style>
 
