@@ -38,16 +38,25 @@
       grid-template-columns: repeat(2, 1fr);
     }
   }
+
+  #no-meetups {
+    margin: 1rem;
+  }
 </style>
 
 <section id="meetup-controls">
   <MeetupFilter on:favsOnly={setFilter} />
   <Button on:click={() => dispatch("add")}>New Meetup</Button>
 </section>
-<section id="meetups">
-  {#each filteredMeetups as meetup (meetup.id)}
-    <div transition:scale animate:flip={{duration: 400}}>
-      <MeetupItem {meetup} on:toggleFavorite on:showdetails on:edit />
-    </div>
-  {/each}
-</section>
+
+{#if filteredMeetups.length}
+  <section id="meetups">
+    {#each filteredMeetups as meetup (meetup.id)}
+      <div transition:scale animate:flip={{ duration: 400 }}>
+        <MeetupItem {meetup} on:toggleFavorite on:showdetails on:edit />
+      </div>
+    {/each}
+  </section>
+{:else}
+  <p id="no-meetups">No meetups found, you can start adding some.</p>
+{/if}
