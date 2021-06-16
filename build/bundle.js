@@ -2328,7 +2328,7 @@ var app = (function () {
     const { Error: Error_1$1, console: console_1$1 } = globals;
     const file$7 = "src\\Meetups\\EditMeetup.svelte";
 
-    // (84:0) <Modal title={id ? "Edit Meetup" : "New Meetup"} on:close>
+    // (98:0) <Modal title={id ? "Edit Meetup" : "New Meetup"} on:close>
     function create_default_slot_3$1(ctx) {
     	let form;
     	let textinput0;
@@ -2447,7 +2447,7 @@ var app = (function () {
     			t4 = space();
     			create_component(textinput5.$$.fragment);
     			attr_dev(form, "class", "svelte-no1xoc");
-    			add_location(form, file$7, 84, 2, 2275);
+    			add_location(form, file$7, 98, 2, 2725);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, form, anchor);
@@ -2537,14 +2537,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_3$1.name,
     		type: "slot",
-    		source: "(84:0) <Modal title={id ? \\\"Edit Meetup\\\" : \\\"New Meetup\\\"} on:close>",
+    		source: "(98:0) <Modal title={id ? \\\"Edit Meetup\\\" : \\\"New Meetup\\\"} on:close>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (137:4) <Button mode="outline" on:click={() => dispatch("close")}>
+    // (151:4) <Button mode="outline" on:click={() => dispatch("close")}>
     function create_default_slot_2$1(ctx) {
     	let t;
 
@@ -2564,14 +2564,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_2$1.name,
     		type: "slot",
-    		source: "(137:4) <Button mode=\\\"outline\\\" on:click={() => dispatch(\\\"close\\\")}>",
+    		source: "(151:4) <Button mode=\\\"outline\\\" on:click={() => dispatch(\\\"close\\\")}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (138:4) {#if id}
+    // (152:4) {#if id}
     function create_if_block$3(ctx) {
     	let button;
     	let current;
@@ -2622,14 +2622,14 @@ var app = (function () {
     		block,
     		id: create_if_block$3.name,
     		type: "if",
-    		source: "(138:4) {#if id}",
+    		source: "(152:4) {#if id}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (139:6) <Button mode="outline" on:click={deleteMeetup}>
+    // (153:6) <Button mode="outline" on:click={deleteMeetup}>
     function create_default_slot_1$2(ctx) {
     	let t;
 
@@ -2649,14 +2649,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_1$2.name,
     		type: "slot",
-    		source: "(139:6) <Button mode=\\\"outline\\\" on:click={deleteMeetup}>",
+    		source: "(153:6) <Button mode=\\\"outline\\\" on:click={deleteMeetup}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (141:4) <Button on:click={submitForm} disabled={!formIsValid}>
+    // (155:4) <Button on:click={submitForm} disabled={!formIsValid}>
     function create_default_slot$3(ctx) {
     	let t;
 
@@ -2676,14 +2676,14 @@ var app = (function () {
     		block,
     		id: create_default_slot$3.name,
     		type: "slot",
-    		source: "(141:4) <Button on:click={submitForm} disabled={!formIsValid}>",
+    		source: "(155:4) <Button on:click={submitForm} disabled={!formIsValid}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (136:2) 
+    // (150:2) 
     function create_footer_slot(ctx) {
     	let div;
     	let button0;
@@ -2724,7 +2724,7 @@ var app = (function () {
     			t1 = space();
     			create_component(button1.$$.fragment);
     			attr_dev(div, "slot", "footer");
-    			add_location(div, file$7, 135, 2, 3767);
+    			add_location(div, file$7, 149, 2, 4217);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2801,7 +2801,7 @@ var app = (function () {
     		block,
     		id: create_footer_slot.name,
     		type: "slot",
-    		source: "(136:2) ",
+    		source: "(150:2) ",
     		ctx
     	});
 
@@ -2907,7 +2907,17 @@ var app = (function () {
     		};
 
     		if (id) {
-    			customMeetupsStore.updateMeetup(id, isFavorite, meetup);
+    			fetch(`https://meetup-meetus-default-rtdb.firebaseio.com/meetups/${id}.json`, {
+    				method: "PATCH",
+    				body: JSON.stringify(meetup),
+    				headers: { "Content-Type": "application/json" }
+    			}).then(res => {
+    				if (!res.ok) {
+    					throw new Error("An error occurred, please try again!");
+    				}
+
+    				customMeetupsStore.updateMeetup(id, isFavorite, meetup);
+    			}).catch(err => console.log(err));
     		} else {
     			fetch("https://meetup-meetus-default-rtdb.firebaseio.com/meetups.json", {
     				method: "POST",
