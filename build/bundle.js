@@ -4686,7 +4686,7 @@ var app = (function () {
     const { Error: Error_1, console: console_1 } = globals;
     const file = "src\\App.svelte";
 
-    // (91:2) {:else}
+    // (92:2) {:else}
     function create_else_block_1(ctx) {
     	let meetupdetail;
     	let current;
@@ -4729,14 +4729,14 @@ var app = (function () {
     		block,
     		id: create_else_block_1.name,
     		type: "else",
-    		source: "(91:2) {:else}",
+    		source: "(92:2) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (76:2) {#if page === "overview"}
+    // (77:2) {#if page === "overview"}
     function create_if_block(ctx) {
     	let t;
     	let current_block_type_index;
@@ -4842,14 +4842,14 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(76:2) {#if page === \\\"overview\\\"}",
+    		source: "(77:2) {#if page === \\\"overview\\\"}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (77:4) {#if editMode}
+    // (78:4) {#if editMode}
     function create_if_block_2(ctx) {
     	let editmeetup;
     	let current;
@@ -4892,14 +4892,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(77:4) {#if editMode}",
+    		source: "(78:4) {#if editMode}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (83:4) {:else}
+    // (84:4) {:else}
     function create_else_block(ctx) {
     	let meetupgrid;
     	let current;
@@ -4944,14 +4944,14 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(83:4) {:else}",
+    		source: "(84:4) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (81:4) {#if isLoading}
+    // (82:4) {#if isLoading}
     function create_if_block_1(ctx) {
     	let loadingspinner;
     	let current;
@@ -4984,7 +4984,7 @@ var app = (function () {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(81:4) {#if isLoading}",
+    		source: "(82:4) {#if isLoading}",
     		ctx
     	});
 
@@ -5021,11 +5021,11 @@ var app = (function () {
     			t1 = space();
     			p = element("p");
     			p.textContent = "⚠️ Data from this page is dynamically entered by users. The author of this\n  project assumes no responsibility for this content. ⚠️";
-    			attr_dev(main, "class", "svelte-1dospic");
-    			add_location(main, file, 74, 0, 1685);
+    			attr_dev(main, "class", "svelte-47wcdt");
+    			add_location(main, file, 75, 0, 1708);
     			attr_dev(p, "id", "warning");
-    			attr_dev(p, "class", "svelte-1dospic");
-    			add_location(p, file, 95, 0, 2126);
+    			attr_dev(p, "class", "svelte-47wcdt");
+    			add_location(p, file, 96, 0, 2149);
     		},
     		l: function claim(nodes) {
     			throw new Error_1("options.hydrate only works if the component was compiled with the `hydratable: true` option");
