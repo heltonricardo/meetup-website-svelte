@@ -14,7 +14,23 @@
     (meetup.description.length > MAX_LENGTH ? "..." : "");
 
   function toggleFavorite() {
-    meetups.toggleFavorite(meetup.id);
+    fetch(
+      `https://meetup-meetus-default-rtdb.firebaseio.com/meetups/${meetup.id}.json`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({ isFavorite: !meetup.isFavorite }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("An error occurred, please try again!");
+        }
+        meetups.toggleFavorite(meetup.id);
+      })
+      .catch((err) => console.log(err));
   }
 </script>
 
