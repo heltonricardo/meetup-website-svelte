@@ -31,7 +31,7 @@
         // Simulando demora da resposta:
         return new Promise((resolve, reject) => {
           setTimeout(() => {
-            meetups.setMeetups(loadedMeetups);
+            meetups.setMeetups(loadedMeetups.reverse());
             resolve();
           }, 1500);
         });
