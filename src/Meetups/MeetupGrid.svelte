@@ -41,6 +41,7 @@
 
   #no-meetups {
     margin: 1rem;
+    text-align: center;
   }
 </style>
 
