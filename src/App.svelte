@@ -6,19 +6,21 @@
   import MeetupDetail from "./Meetups/MeetupDetail.svelte";
   import meetups from "./Meetups/meetups-store";
   import LoadingSpinner from "./UI/LoadingSpinner.svelte";
+  import Error from "./UI/Error.svelte";
 
   let editMode = false;
   let page = "overview";
   let editedId;
   let pageData = {};
   let isLoading = false;
+  let error;
 
   onMount(() => {
     isLoading = true;
     fetch("https://meetup-meetus-default-rtdb.firebaseio.com/meetups.json")
       .then((res) => {
         if (!res.ok) {
-          throw new Error("Fetching meetups failed, please try again later!");
+          throw "Fetching meetups failed, please try again later!";
         }
         return res.json();
       })
@@ -27,17 +29,16 @@
         for (const d in data) {
           loadedMeetups.push({ id: d, ...data[d] });
         }
-
         // Simulando demora da resposta:
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           setTimeout(() => {
             meetups.setMeetups(loadedMeetups.reverse());
             resolve();
-          }, 1500);
+          }, 1000);
         });
       })
-      .catch((err) => console.log(err))
-      .then(() => (isLoading = false));
+      .catch((err) => (error = err))
+      .finally(() => (isLoading = false));
   });
 
   function closeEditMode() {
@@ -72,7 +73,12 @@
   }
 </style>
 
+{#if error}
+  <Error message={error} on:close={() => (error = null)} />
+{/if}
+
 <Header />
+
 <main>
   {#if page === "overview"}
     {#if editMode}

@@ -3,17 +3,22 @@
   import meetups from "./meetups-store";
   import Badge from "../UI/Badge.svelte";
   import Button from "../UI/Button.svelte";
+  import Error from "../UI/Error.svelte";
 
   const dispatch = createEventDispatcher();
+  const MAX_LENGTH = 70;
 
   export let meetup;
 
-  const MAX_LENGTH = 70;
+  let isLoading = false;
+  let error;
+
   $: descStart =
     meetup.description.substr(0, MAX_LENGTH) +
     (meetup.description.length > MAX_LENGTH ? "..." : "");
 
   function toggleFavorite() {
+    isLoading = true;
     fetch(
       `https://meetup-meetus-default-rtdb.firebaseio.com/meetups/${meetup.id}.json`,
       {
@@ -26,11 +31,12 @@
     )
       .then((res) => {
         if (!res.ok) {
-          throw new Error("An error occurred, please try again!");
+          throw "An error occurred, please try again!";
         }
         meetups.toggleFavorite(meetup.id);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => (error = err))
+      .finally(() => (isLoading = false));
   }
 </script>
 
@@ -83,7 +89,15 @@
   .content {
     height: 4rem;
   }
+
+  #changing {
+    margin-left: 0.5rem;
+  }
 </style>
+
+{#if error}
+  <Error message={error} on:close={() => (error = null)} />
+{/if}
 
 <article>
   <header>
@@ -109,12 +123,16 @@
     <Button mode="outline" on:click={() => dispatch("edit", meetup.id)}
       >Edit</Button
     >
-    <Button
-      mode="outline"
-      color={meetup.isFavorite || "success"}
-      type="button"
-      on:click={toggleFavorite}
-      >{meetup.isFavorite ? "Unfavorite" : "Favorite"}</Button
-    >
+    {#if isLoading}
+      <span id="changing">Changing...</span>
+    {:else}
+      <Button
+        mode="outline"
+        color={meetup.isFavorite || "success"}
+        type="button"
+        on:click={toggleFavorite}
+        >{meetup.isFavorite ? "Unfavorite" : "Favorite"}</Button
+      >
+    {/if}
   </footer>
 </article>

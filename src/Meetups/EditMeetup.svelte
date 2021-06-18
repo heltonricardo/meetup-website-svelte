@@ -5,12 +5,14 @@
   import TextInput from "../UI/TextInput.svelte";
   import Button from "../UI/Button.svelte";
   import Modal from "../UI/Modal.svelte";
+  import Error from "../UI/Error.svelte";
 
   export let id = null;
 
   const dispatch = createEventDispatcher();
 
   let formIsValid = false;
+  let error;
 
   const meetup = $meetups.find((m) => m.id === id) || {};
   let title = meetup.title || "";
@@ -57,11 +59,11 @@
       )
         .then((res) => {
           if (!res.ok) {
-            throw new Error("An error occurred, please try again!");
+            throw "An error occurred, please try again!";
           }
           meetups.updateMeetup(id, isFavorite, meetup);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => (error = err));
     } else {
       fetch("https://meetup-meetus-default-rtdb.firebaseio.com/meetups.json", {
         method: "POST",
@@ -70,14 +72,14 @@
       })
         .then((res) => {
           if (!res.ok) {
-            throw new Error("An error occurred, please try again!");
+            throw "An error occurred, please try again!";
           }
           return res.json();
         })
         .then((data) => {
           meetups.addMeetup({ id: data.name, ...meetup, isFavorite: false });
         })
-        .catch((err) => console.log(err));
+        .catch((err) => (error = err));
     }
 
     dispatch("close");
@@ -90,11 +92,11 @@
     )
       .then((res) => {
         if (!res.ok) {
-          throw new Error("An error occurred, please try again!");
+          throw "An error occurred, please try again!";
         }
         meetups.deleteMeetup(id);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => (error = err));
     dispatch("close");
   }
 </script>
@@ -104,6 +106,10 @@
     width: 100%;
   }
 </style>
+
+{#if error}
+  <Error message={error} on:close={() => (error = null)} />
+{/if}
 
 <Modal title={id ? "Edit Meetup" : "New Meetup"} on:close>
   <form on:submit|preventDefault={submitForm}>
