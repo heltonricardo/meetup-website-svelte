@@ -54,7 +54,7 @@
   <section id="meetups">
     {#each filteredMeetups as meetup (meetup.id)}
       <div transition:scale animate:flip={{ duration: 400 }}>
-        <MeetupItem {meetup} on:toggleFavorite on:showdetails on:edit />
+        <MeetupItem {meetup} on:showdetails on:edit />
       </div>
     {/each}
   </section>
